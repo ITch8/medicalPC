@@ -1,8 +1,7 @@
 {
-  "name": "medicalPC",
+  "name": "myhMedicalPC",
   "description": "application created by thinkjs",
   "version": "1.0.0",
-  "author": "AChuang <lichuang516@126.com>",
   "scripts": {
     "start": "node development.js",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
@@ -10,46 +9,33 @@
     "lint-fix": "eslint --fix src/"
   },
   "dependencies": {
-    "think-cache": "^1.0.7",
-    "think-cache-file": "^1.0.10",
-    "think-logger3": "^1.1.1",
-    "think-model": "^1.1.6",
-    "think-model-mysql": "^1.0.6",
-    "think-session": "^1.0.3",
-    "think-session-file": "^1.0.6",
-    "think-view": "^1.0.11",
-    "think-view-nunjucks": "^1.0.7",
-    "thinkjs": "^3.2.6"
+    "think-cache": "^1.0.0",
+    "think-session": "^1.0.0",
+    "think-cache-file": "^1.0.8",
+    "think-model": "^1.0.0",
+    "think-session-file": "^1.0.5",
+    "think-view": "^1.0.0",
+    "think-view-nunjucks": "^1.0.1",
+    "think-model-mysql": "^1.0.0",
+    "think-logger3": "^1.0.0",
+    "thinkjs": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^0.18.0",
-    "babel-cli": "^6.26.0",
+    "babel-cli": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
+    "node-notifier": "^5.0.2",
+    "think-watcher": "^3.0.0",
+    "think-inspect": "0.0.2",
+    "think-babel": "^1.0.3",
     "eslint": "^4.2.0",
     "eslint-config-think": "^1.0.0",
-    "node-notifier": "^5.0.2",
-    "nyc": "^7.0.0",
-    "think-babel": "^1.0.3",
-    "think-inspect": "0.0.2",
-    "think-watcher": "^3.0.0"
+    "jszip": "^3.1.5",
+    "silly-datetime":"^0.1.2"
   },
   "repository": "",
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
   },
-  "readmeFilename": "README.md",
-  "thinkjs": {
-    "metadata": {
-      "name": "medicalPC",
-      "description": "application created by thinkjs",
-      "author": "AChuang <lichuang516@126.com>",
-      "babel": false
-    },
-    "projectName": "medicalPC",
-    "templateName": "D:\\Program Files\\nodejs\\node_global\\node_modules\\think-cli\\default_template",
-    "cacheTemplatePath": "C:\\Users\\Administrator\\.think-templates\\D--Program Files-nodejs-node_global-node_modules-think-cli-default_template",
-    "clone": false,
-    "isMultiModule": false
-  }
+  "readmeFilename": "README.md"
 }

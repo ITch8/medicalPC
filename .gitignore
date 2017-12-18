@@ -32,6 +32,6 @@ output.tar.gz
 
 runtime/
 app/
-
+.vscode
 config.development.js
 adapter.development.js

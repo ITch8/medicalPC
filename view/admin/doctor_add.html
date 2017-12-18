@@ -3,80 +3,83 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>添加记事</title>
+    <title>添加医生</title>
     {% include "./header.html" %}
 </head>
 
 <body>
-    <form role="form" method="post">
+    <form name="form" method="post" id="form" enctype="multipart/form-data" action="/admin/doctor/avatar">
         <div class="box-body">
             <div class="form-group">
-                <label for="name">记事标题</label>
-                <input class="form-control" id="title" name="title" placeholder="请输入记事标题">
+                <label for="doctorName">医生名称</label>
+                <input class="form-control" id="doctorName" name="doctorName" placeholder="请输入医生名称" required>
             </div>
             <div class="form-group">
-                <label for="name">记事日期</label>
-                <div class="input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right" id="datepicker">
-                </div>
+                <label for="doctorName">科室</label>
+                <input class="form-control" id="office" name="office" placeholder="请输入科室" required>
             </div>
             <div class="form-group">
-                <label for="remark">所属分类</label>
-                <div class="form-group">
-                    <select class="form-control" id="category_name">
-                            {% for item in category %}
-                            <option>{{item.name}}</option>
-                            {% endfor %}
-                    </select>
-                </div>
+                <label for="doctorName">联系方式</label>
+                <input class="form-control" id="phone" name="phone" placeholder="请输入联系方式" required>
             </div>
             <div class="form-group">
-                <label for="remark">记事详情</label>
-                <form>
-                    <textarea class="textarea" id="content" name="content" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                </form>
+                <label for="avatar">上传医生头像</label>
+                <input id="avatar" type="file" name="avatar" class="file" data-overwrite-initial="false" data-min-file-count="1">
             </div>
-        </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-primary button">确认提交</button>
+            <div class="form-group">
+                <button type="button" id="save" class="btn btn-info">保存</button>
+            </div>
         </div>
     </form>
-    {% include "./footer.html" %}
 </body>
+{% include "./footer.html" %}
+<script src="/static/js/fileinput.js"></script>
+<script src="/static/js/fileinput_locale_zh.js"></script>
 <script>
     $(function () {
-        //bootstrap WYSIHTML5 - text editor
-        $('.textarea').wysihtml5()
-        $('#datepicker').datepicker({
-            autoclose: true,
-            language:"zh-CN",
-            format: 'yyyy-mm-dd'
-        })
-        $(".button").click(function () {
-            var title = $("#title").val();
-            var content = $("#content").val();
-            var category_name = $("#category_name").val();
-            var times= $("#datepicker").val();
-            $.ajax({
-                type: 'post',
-                url: 'http://localhost:8360/thing/save',
-                data: { "title": title, "content": content, "category_name": category_name,"times":times },
-                success: function (data) {
+
+        //保存医生信息和头像）
+        $("#avatar").fileinput({
+            uploadUrl: ASKURL +  '/admin/doctor/avatar', // you must set a valid URL here else you will get an error
+            allowedFileExtensions : ['jpg', 'png','gif'],
+            overwriteInitial: false,
+            showUpload: true,
+            maxFileSize: 1000,
+            maxFilesNum: 1,
+            slugCallback: function(data) {
+                console.log('data====='+JSON.stringify(data));
+                // return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+        
+        function filechange() {
+            console.log('sdfasdf');
+        }
+
+        //保存医生（不上传头像）
+        $("#save").click(function () {
+            var doctorName = $("#doctorName").val();
+            var office = $("#office").val();
+            var phone = $("#phone").val();
+            if(isNull(doctorName)){
+                alert("请输入医生名称");
+            }else if(isNull(office)){
+                alert("请输入科室");
+            }else if(isNull(phone)){
+                alert("请输入联系方式");
+            }else{
+                mypost('/admin/doctor/save',{ "doctorName": doctorName, "office": office, "phone": phone},function (data) {
                     if (data.succ) {
                         alert("添加成功");
-                        window.location.href = "http://localhost:8360/thing/index"
+                        window.location.href = "/admin/doctor/index"
                     } else {
                         alert("添加失败");
                     }
-                }
-            });
-
+                },function (err) {
+                    alert("添加失败");
+                })
+            }
         });
     })
-
 </script>
-
 </html>

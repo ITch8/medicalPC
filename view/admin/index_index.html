@@ -11,7 +11,7 @@
       <header class="main-header">
         <!-- Logo -->
         <a href="" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <!-- mini logo for sidebar mini 50x50 pixs -->
           <span class="logo-mini">管理</span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">名医汇官网后台</span>
@@ -28,7 +28,7 @@
               <!-- User Account Menu -->
               <li class="dropdown user user-menu">
                 <!-- Menu Toggle Button -->
-                <a href="/admin/logout" class="dropdown-toggle">
+                <a href="/admin/login/logout" class="dropdown-toggle">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
                   <span class="hidden-xs">{{userinfo.username}} 注销</span>
                 </a>
@@ -74,8 +74,8 @@
                   </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="admin/doctor/index" class="fa fa-circle-o" target="menuFrame">医生列表</a></li>
-                <li><a href="admin/doctor/add" class="fa fa-circle-o" target="menuFrame">添加医生</a></li>
+                <li><a href="/admin/doctor/index" class="fa fa-circle-o" target="menuFrame">医生列表</a></li>
+                <li><a href="/admin/doctor/add" class="fa fa-circle-o" target="menuFrame">添加医生</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -134,7 +134,7 @@
         <!-- Main content -->
         <section class="content container-fluid">
             <!-- {{title}}登录的用户名是：{{userinfo.username}} -->
-            <iframe id="menuFrame" name="menuFrame" src="/index/welcome" style="overflow:visible;" scrolling="yes" frameborder="no" height="100%"  width="100%" ></iframe>
+            <iframe id="menuFrame" name="menuFrame" src="/admin/index/welcome" style="overflow:visible;" scrolling="yes" frameborder="no" height="100%"  width="100%" ></iframe>
         </section>
         <!-- /.content -->
       </div>
@@ -142,12 +142,7 @@
     
       <!-- Main Footer -->
       <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-         thinkjsPlus
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2017 <a href="http://www.wuyanwen.cc">thinkjsPlus</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2017~2018 <a href="http://www.du-ms.com">名医汇</a>.</strong> All rights reserved.
       </footer>
     
       <!-- Control Sidebar -->
