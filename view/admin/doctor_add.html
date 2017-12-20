@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form name="form" method="post" id="form" enctype="multipart/form-data" action="/admin/doctor/avatar">
+    <form name="form" method="post" id="form" enctype="multipart/form-data" action="/admin/doctor/avatar" style="width: 500px;">
         <div class="box-body">
             <div class="form-group">
                 <label for="doctorName">医生名称</label>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="avatar">上传医生头像</label>
-                <input id="avatar" type="file" name="avatar" class="file" data-overwrite-initial="false" data-min-file-count="1">
+                <input id="avatar" type="file" name="avatar" class="file" data-overwrite-initial="false" data-min-file-count="0">
             </div>
             <div class="form-group">
                 <button type="button" id="save" class="btn btn-info">保存</button>
@@ -46,38 +46,69 @@
             showUpload: true,
             maxFileSize: 1000,
             maxFilesNum: 1,
-            slugCallback: function(data) {
-                console.log('data====='+JSON.stringify(data));
-                // return filename.replace('(', '_').replace(']', '_');
+            slugCallback: function(filename) {
+                return filename.replace('(', '_').replace(']', '_');
             }
         });
-        
-        function filechange() {
-            console.log('sdfasdf');
-        }
 
-        //保存医生（不上传头像）
+        //异步上传返回结果处理
+        $('#avatar').on('fileerror', function(event, data, msg) {
+            console.log(data.id);
+            console.log(data.index);
+            console.log(data.file);
+            console.log(data.reader);
+            console.log(data.files);
+            // get message
+            alert(msg);
+        });
+    //异步上传返回结果处理
+        $("#avatar").on("fileuploaded", function (event, data, previewId, index) {
+            console.log(data.id);
+            console.log(data.index);
+            console.log(data.file);
+            console.log(data.reader);
+            console.log(data.files);
+            var obj = data.response;
+            alert(JSON.stringify(data.success));
+
+        });
+        $("#avatar").on("filebatchuploadcomplete", function (event, data, previewId, index) {
+            console.log(data.id);
+            console.log(data.index);
+            console.log(data.file);
+            console.log(data.reader);
+            console.log(data.files);
+            var obj = data.response;
+            alert(JSON.stringify(data.success));
+
+        }); $("#avatar").on("filebatchuploadsuccess", function (event, data, previewId, index) {
+            console.log(data.id);
+            console.log(data.index);
+            console.log(data.file);
+            console.log(data.reader);
+            console.log(data.files);
+            var obj = data.response;
+            alert(JSON.stringify(data.success));
+
+        });
+
+
+        //保存医生
         $("#save").click(function () {
             var doctorName = $("#doctorName").val();
             var office = $("#office").val();
             var phone = $("#phone").val();
             if(isNull(doctorName)){
+                $("#doctorName").focus();
                 alert("请输入医生名称");
             }else if(isNull(office)){
+                $("#office").focus();
                 alert("请输入科室");
             }else if(isNull(phone)){
+                $("#phone").focus();
                 alert("请输入联系方式");
             }else{
-                mypost('/admin/doctor/save',{ "doctorName": doctorName, "office": office, "phone": phone},function (data) {
-                    if (data.succ) {
-                        alert("添加成功");
-                        window.location.href = "/admin/doctor/index"
-                    } else {
-                        alert("添加失败");
-                    }
-                },function (err) {
-                    alert("添加失败");
-                })
+                $('#form').submit();
             }
         });
     })

@@ -19,3 +19,34 @@ var mypost = function (url,pdata,success,error,show){
         }
     });
 }
+/**
+ * 自定义确认框
+ * */
+var myConfirm = function(title,info,success){
+
+    $.confirm({
+        title: title || '提示!',
+        content: info || '确定删除吗',
+        buttons: {
+            是: {
+                btnClass: 'btn-blue',
+                action: success
+            },
+            否:{ btnClass: 'btn-warning',
+                action: function () {}
+            }
+        }
+    });
+}
+/**
+ * 自定义警告框
+ * */
+var alert = function(info,success,title){
+    $.alert({
+        title: title || '提示!',
+        content: info ||　'操作完成!',
+        buttons:{
+            好:success || function () { }
+        }
+    });
+}

@@ -14,14 +14,14 @@
     </style>
 </head>
 <body>
-    <table id="doctorTable" class="table table-bordered table-striped">
+    <table id="newsTable" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>编号</th>
-                <th>医生名称</th>
-                <th>科室</th>
-                <th>联系方式</th>
-                <th>医生头像</th>
+                <th>资讯标题</th>
+                <th>资讯类型</th>
+                <th>更新时间</th>
+                <th>浏览量</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -40,17 +40,27 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="doctorName">医生名称</label>
-                        <input class="form-control" id="doctorName" name="doctorName" placeholder="请输入医生名称">
+                        <label for="title">资讯标题</label>
+                        <input class="form-control" id="title" name="title" placeholder="请输入资讯标题">
                         <input type="hidden" class="form-control" id="id" name="id" >
                     </div>
                     <div class="form-group">
-                        <label for="office">科室</label>
-                        <input class="form-control" id="office" name="office" placeholder="请输入科室">
+                        <label for="typeid">资讯类型</label>
+                        <select class="form-control" id="typeid">
+                            {% for item in type %}
+                            <option id="{{ item.typeid }}">{{item.type}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="phone">联系方式</label>
-                        <input class="form-control" id="phone" name="phone" placeholder="请输入联系方式">
+                        <label for="hotnum">浏览量</label>
+                        <input class="form-control" id="hotnum" name="hotnum" placeholder="请输入浏览量">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">资讯详情</label>
+                        <form>
+                            <textarea class="textarea" id="content" name="content" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -61,20 +71,13 @@
         </div>
     </div>
 
-    <!--放大图的imgModal-->
-    <div class="modal fade bs-example-modal-lg text-center" id="imgModal"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
-        <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
-            <div class="modal-content">
-                <img  id="imgInModalID" src="" >
-            </div>
-        </div>
-    </div>
 </body>
 <script>
     $(function () {
-        mypost('/admin/doctor/list',{},function (data) {
+        $('.textarea').wysihtml5();
+        mypost('/admin/news/list',{},function (data) {
             //DataTable
-            var  table = $('#doctorTable').DataTable({
+            var  table = $('#newsTable').DataTable({
                 'paging': true,
                 'lengthChange': false,
                 'searching': true,
@@ -87,18 +90,13 @@
                 'data': data,
                 'columns': [
                     { "data": "id" },
-                    { "data": "doctorName" },
-                    { "data": "office"},{"data": "phone"},{"data": "avatar"}],
+                    { "data": "title" },
+                    { "data": "type"},{"data": "time"},{"data": "hotnum"}],
                 "columnDefs": [{//设置 编辑按钮  （自定义显示类型）
                     "targets": [5],
                     "data": "id",
                     "render": function (data, type, full) {
                         return "<a class='edit' href='javascript:void(0)' edit='" + data + "'data-toggle='modal' data-target='#myModal' >编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='del' del='" + data + "'href='javascript:void(0)'>删除</a>";
-                    }
-                },{
-                    "targets": [4],
-                    "render":function (data,type,row) {
-                        return "<img src='../../"+ data +"' style='width: 50px;' class='img-thumbnail'>";
                     }
                 }],
                 "oLanguage": {
@@ -137,22 +135,27 @@
                 });
             });
 
-            //预览图片
-            $("table img").click(function () {
-                var that =this;
-                $('#imgInModalID').attr('src',$(that).attr('src'));
-                $('#imgModal').modal();
-            });
-
             //编辑
             $(".edit").click(function () {
                 var that =this;
                 var data = table.row($(that).parents('tr')).data();
                 console.log("data==="+JSON.stringify(data));
                 $("#id").val(data.id);
-                $("#doctorName").val(data.doctorName);
-                $("#office").val(data.office);
-                $("#phone").val(data.phone);
+                $("#title").val(data.title);
+                $("#typeid").val(data.typeid);
+                $("#hotnum").val(data.hotnum);
+                mypost('/admin/news/one',{"id":data.id},function (res) {
+                    console.log('data===='+JSON.stringify(res.data[0].content));
+                    if(res.succ){
+                        var type = res.type;
+                        $('.textarea').text('sdfasd');
+                    }else{
+                        alert("获取失败");
+                    }
+                },function (err) {
+                    alert("获取失败");
+                })
+
             });
             //编辑更新
             $(".button").click(function () {
